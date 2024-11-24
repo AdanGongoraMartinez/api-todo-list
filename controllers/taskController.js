@@ -45,3 +45,17 @@ export const updateTask = async (req, res) => {
     }
 };
 
+// Eliminar una tarea
+export const deleteTask = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await pool.query('DELETE FROM tasks WHERE id = $1 RETURNING *', [id]);
+        if (result.rows.length === 0) {
+            return res.status(404).send('Tarea no encontrada');
+        }
+        res.json({ message: 'Tarea eliminada con éxito' });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Error en el servidor');
+    }
+};
