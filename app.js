@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import cors from 'cors';
+// import cors from 'cors';
 
 import taskRoutes from './routes/taskRoutes.js';
 
@@ -12,26 +12,11 @@ app.disable('x-powered-by');
 const port = 3000;
 
 // Middleware
-app.use(cors());
+// app.use(cors());
 app.use(bodyParser.json());
 
 // Rutas
 app.use('/tasks', taskRoutes);
-
-// Crear una nueva tarea
-app.post('/tasks', async (req, res) => {
-    const { title } = req.body;
-    try {
-        const result = await pool.query(
-            'INSERT INTO tasks (title) VALUES ($1) RETURNING *',
-            [title]
-        );
-        res.json(result.rows[0]);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Error en el servidor');
-    }
-});
 
 // Actualizar una tarea
 app.put('/tasks/:id', async (req, res) => {
