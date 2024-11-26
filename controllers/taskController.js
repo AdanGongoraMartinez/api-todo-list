@@ -11,6 +11,21 @@ export const getAllTasks = async (req, res) => {
     }
 };
 
+// Obtener todas las tareas
+export const getTaksById = async (req, res) => {
+    const { id } = req.body;
+    try {
+        const result = await pool.query(
+            'INSERT INTO tasks (id) VALUES ($1) RETURNING *',
+            [id]
+        );
+        res.json(result.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Error en el servidor');
+    }
+};
+
 // Crear una nueva tarea
 export const createTask = async (req, res) => {
     const { user_id, title } = req.body;
