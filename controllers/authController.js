@@ -24,7 +24,7 @@ export const login = async (req, res) => {
             return res.send('Login Error');
         }
         // res.send('Successful Login');
-        return res.json({ success: true });
+        return res.json({ success: true, user_id: result.rows[0].id });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Error en el servidor');
